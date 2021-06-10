@@ -1,7 +1,10 @@
 package com.example.demo.student;
 
+// always have this import
+// will allow for all imports to be applicable to other backends
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.Period;
 
 @Entity // for hibernate
 @Table // for DB
@@ -20,6 +23,9 @@ public class Student {
     private String name;
     private String email;
     private LocalDate dob;
+
+    // ignores it as a column in DB
+    @Transient
     private Integer age;
 
     // constructors
@@ -29,23 +35,19 @@ public class Student {
     public Student(Long id,
                    String name,
                    String email,
-                   LocalDate dob,
-                   Integer age) {
+                   LocalDate dob) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.dob = dob;
-        this.age = age;
     }
 
     public Student(String name,
                    String email,
-                   LocalDate dob,
-                   Integer age) {
+                   LocalDate dob) {
         this.name = name;
         this.email = email;
         this.dob = dob;
-        this.age = age;
     }
 
     // getters and setters
@@ -82,7 +84,7 @@ public class Student {
     }
 
     public Integer getAge() {
-        return age;
+        return Period.between(this.dob, LocalDate.now()).getYears();
     }
 
     public void setAge(Integer age) {
